@@ -1,0 +1,42 @@
+name: Matrix Build
+
+on:
+  workflow-dispatch:
+  push:
+
+jobs:
+  release-matrix:
+    name: Release Matrix
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Clone git-jock
+        run: git clone https://github.com/GavinF17/git-jock.git
+
+      - name: Install git-jock dependencies
+        run: |
+          cd git-jock
+          pip install -r requirements.txt
+
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+
+      - name: Run PyInstaller
+        run: |
+          cd git-jock
+          pyinstaller jock/__main__.py --onefile --name jock
+#          exit 2
+
+      - name: Copy to bin
+        run: cp ./dist/jock /bin/jock
+
+      - name: Run jock
+        run: jock
