@@ -35,8 +35,5 @@ jobs:
           pyinstaller jock/__main__.py --onefile --name jock
 #          exit 2
 
-      - name: Copy to bin
-        run: cp ./git-jock/dist/jock /bin/jock
-
       - name: Run jock
-        run: jock
+        run: ./git-jock/dist/jock
