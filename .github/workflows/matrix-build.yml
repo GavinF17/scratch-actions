@@ -36,7 +36,7 @@ jobs:
 #          exit 2
 
       - name: Copy to bin
-        run: cp ./dist/jock /bin/jock
+        run: cp ./git-jock/dist/jock /bin/jock
 
       - name: Run jock
         run: jock
