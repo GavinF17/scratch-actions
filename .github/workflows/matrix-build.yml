@@ -61,8 +61,11 @@ jobs:
           cd git-jock
           pyinstaller jock/__main__.py --onefile --name jock
 
-      - name: Set Zip Name
-        run: echo "ZIP_NAME=jock-$(uname)-$(uname -m)" >> $GITHUB_ENV
+      - name: Set Zip  Variables
+        run: |
+          echo "ZIP_NAME=jock-$(uname)-$(uname -m)" >> $GITHUB_ENV
+          echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
+          echo "UPLOAD_URL=$(cat ./upload_url.txt)" >> $GITHUB_ENV
 
       - name: Zip
         run: zip -j $ZIP_NAME git-jock/dist/jock
@@ -77,10 +80,8 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UPLOAD_URL: $(cat ./upload_url.txt)
-          ZIP_FILE: "${{ secrets.ZIP_NAME }}.zip"
         with:
-          upload_url: UPLOAD_URL
+          upload_url: ${{ env.UPLOAD_URL }}
           asset_path: ${{ env.ZIP_FILE }}
           asset_name: ${{ env.ZIP_FILE }}
           asset_content_type: application/zip
