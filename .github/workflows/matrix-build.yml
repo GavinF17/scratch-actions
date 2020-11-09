@@ -68,7 +68,8 @@ jobs:
 
       - name: Set Env Variables
         run: |
-          echo "ZIP_NAME=jock-$(uname)-$(uname -m)" >> $GITHUB_ENV
+          ZIP_NAME=jock-$(uname)-$(uname -m)
+          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
           echo "UPLOAD_URL=$(cat ./upload_url.txt)" >> $GITHUB_ENV
 
