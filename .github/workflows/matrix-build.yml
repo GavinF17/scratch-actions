@@ -32,8 +32,14 @@ jobs:
       - name: Run PyInstaller
         run: |
           cd git-jock
-          pyinstaller jock/__main__.py --onefile --name jock
-#          exit 2
+          pyinstaller --help
+          pyinstaller jock/__main__.py --name jock
 
-      - name: Run jock
-        run: ./git-jock/dist/jock
+      - name: Ls
+        run: ls ./git-jock/dist/jock
+
+#      - name: Run jock
+#        run: ./git-jock/dist/jock
+
+#      - name: Fail
+#        run: exit 2
