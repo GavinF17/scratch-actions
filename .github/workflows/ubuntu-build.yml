@@ -29,10 +29,10 @@ jobs:
         run: |
           cd git-jock
           pyinstaller --help
-          pyinstaller jock/__main__.py --name jock
+          pyinstaller jock/__main__.py --onefile --name jock
 
-      - name: Run jock
-        run: ./git-jock/dist/jock
+      - name: Zip
+        run: zip -j jock-$(uname)-$(uname -m) git-jock/dist/jock
 
-#      - name: Fail
-#        run: exit 2
+      - name: Fail
+        run: exit 2
