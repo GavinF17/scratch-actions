@@ -24,8 +24,8 @@ jobs:
 
       - name: Store Upload URL
         run: |
-          echo ${{ steps.create_release.outputs.upload_url }}
-          echo ${{ steps.create_release.outputs.upload_url }} > upload_url.txt
+          echo '${{ steps.create_release.outputs.upload_url }}'
+          echo '${{ steps.create_release.outputs.upload_url }}' > upload_url.txt
           cat upload_url.txt
 
       - name: Upload upload_url
@@ -74,7 +74,7 @@ jobs:
           ZIP_NAME=jock-$(uname)-$(uname -m)
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
-          echo "UPLOAD_URL=$(cat ./upload_url.txt)" >> $GITHUB_ENV
+          echo "UPLOAD_URL='$(cat ./upload_url.txt)'" >> $GITHUB_ENV
 
       - name: Debug
         run: |
