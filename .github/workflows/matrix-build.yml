@@ -81,8 +81,8 @@ jobs:
           ZIP_FILE: $ZIP_NAME.zip
         with:
           upload_url: UPLOAD_URL
-          asset_path: ${{ env.ZIP_NAME }}
-          asset_name: ${{ env.ZIP_NAME }}
+          asset_path: ${{ env.ZIP_FILE }}
+          asset_name: ${{ env.ZIP_FILE }}
           asset_content_type: application/zip
 
 #      - name: Run jock
