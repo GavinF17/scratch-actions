@@ -40,7 +40,7 @@ jobs:
         run: echo "ZIP_NAME=jock-$(uname)-$(uname -m)" >> $GITHUB_ENV
 
       - name: Zip
-        run: zip -j $ZIP_NAME git-jock/dist/jock/jock
+        run: zip -j $ZIP_NAME git-jock/dist/jock
 
       - name: Create Release
         id: create_release
