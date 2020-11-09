@@ -77,10 +77,12 @@ jobs:
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPLOAD_URL: $(cat ./upload_url.txt)
+          ZIP_FILE: $ZIP_NAME.zip
         with:
-          upload_url: "$(cat ./upload_url.txt)"
-          asset_path: "./$ZIP_NAME.zip"
-          asset_name: "$ZIP_NAME.zip"
+          upload_url: UPLOAD_URL
+          asset_path: ZIP_FILE
+          asset_name: ZIP_FILE
           asset_content_type: application/zip
 
 #      - name: Run jock
