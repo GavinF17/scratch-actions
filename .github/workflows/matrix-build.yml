@@ -61,7 +61,12 @@ jobs:
           cd git-jock
           pyinstaller jock/__main__.py --onefile --name jock
 
-      - name: Set Zip  Variables
+      - name: Download upload_url
+        uses: actions/download-artifact@v2
+        with:
+          name: upload_url
+
+      - name: Set Env Variables
         run: |
           echo "ZIP_NAME=jock-$(uname)-$(uname -m)" >> $GITHUB_ENV
           echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
@@ -69,11 +74,6 @@ jobs:
 
       - name: Zip
         run: zip -j $ZIP_NAME git-jock/dist/jock
-
-      - name: Download upload_url
-        uses: actions/download-artifact@v2
-        with:
-          name: upload_url
 
       - name: Upload Release Asset
         id: upload-release-asset
