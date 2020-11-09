@@ -23,7 +23,10 @@ jobs:
           prerelease: false
 
       - name: Store Upload URL
-        run: echo ${{ steps.create_release.outputs.upload_url }} > upload_url.txt
+        run: |
+          echo ${{ steps.create_release.outputs.upload_url }}
+          echo ${{ steps.create_release.outputs.upload_url }} > upload_url.txt
+          cat upload_url.txt
 
       - name: Upload upload_url
         uses: actions/upload-artifact@v2
@@ -72,6 +75,14 @@ jobs:
           echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
           echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
           echo "UPLOAD_URL=$(cat ./upload_url.txt)" >> $GITHUB_ENV
+
+      - name: Debug
+        run: |
+          ls
+          cat upload_url.txt
+          echo $ZIP_NAME
+          echo $ZIP_FILE
+          echo $UPLOAD_URL
 
       - name: Zip
         run: zip -j $ZIP_NAME git-jock/dist/jock
