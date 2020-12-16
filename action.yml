@@ -1,0 +1,18 @@
+name: 'Testing Inputs'
+description: 'Testing Inputs'
+inputs:
+  server-list:  # id of input
+    description: 'List of servers'
+    required: false
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.server-list }}.
+      shell: bash
+    - id: random-number-generator
+      run: echo "::set-output name=random-id::$(echo $RANDOM)"
+      shell: bash
