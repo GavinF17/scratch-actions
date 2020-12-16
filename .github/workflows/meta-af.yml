@@ -1,0 +1,17 @@
+on: [push]
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: A test job
+    steps:
+      - uses: actions/checkout@v2
+      - id: test
+        uses: GavinF17/scratch-actions@master
+        with:
+          server-list:
+            - id: something
+              username: user
+              password: pass123
+      - run: echo random-number ${{ steps.foo.outputs.random-number }}
+        shell: bash
