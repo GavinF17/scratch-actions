@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: test
-        uses: GavinF17/scratch-actions@master
+        uses: GavinF17/scratch-actions@main
         with:
           server-id-1: something
           server-id-2: something-else
