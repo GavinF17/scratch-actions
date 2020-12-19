@@ -9,9 +9,7 @@ jobs:
       - id: test
         uses: GavinF17/scratch-actions@master
         with:
-          server-list:
-            - id: something
-              username: user
-              password: pass123
+          server-id-1: something
+          server-id-2: something-else
       - run: echo random-number ${{ steps.foo.outputs.random-number }}
         shell: bash
