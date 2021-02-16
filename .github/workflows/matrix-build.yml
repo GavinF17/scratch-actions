@@ -1,105 +1,105 @@
-name: Matrix Build
-
-on:
-  workflow_dispatch:
-  push:
-    tags:
-      - 'v*'
-
-jobs:
-  create-release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
-      - name: Store Upload URL
-        run: |
-          echo '${{ steps.create_release.outputs.upload_url }}'
-          echo '${{ steps.create_release.outputs.upload_url }}' > upload_url.txt
-          cat upload_url.txt
-
-      - name: Upload upload_url
-        uses: actions/upload-artifact@v2
-        with:
-          name: upload_url
-          path: ./upload_url.txt
-
-  release-matrix:
-    name: Release Matrix
-    needs: create-release
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-
-    steps:
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-
-      - name: Clone git-jock
-        run: git clone https://github.com/GavinF17/git-jock.git
-
-      - name: Install git-jock dependencies
-        run: |
-          cd git-jock
-          pip install -r requirements.txt
-
-      - name: Install PyInstaller
-        run: pip install pyinstaller
-
-      - name: Run PyInstaller
-        run: |
-          cd git-jock
-          pyinstaller jock/__main__.py --onefile --name jock
-
-      - name: Download upload_url
-        uses: actions/download-artifact@v2
-        with:
-          name: upload_url
-
-      - name: Set Env Variables
-        run: |
-          ZIP_NAME=jock-$(uname)-$(uname -m)
-          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
-          echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
-          echo "UPLOAD_URL=$(cat ./upload_url.txt)" >> $GITHUB_ENV
-
-      - name: Debug
-        run: |
-          ls
-          cat upload_url.txt
-          echo $ZIP_NAME
-          echo $ZIP_FILE
-          echo $UPLOAD_URL
-
-      - name: Zip
-        run: zip -j $ZIP_NAME git-jock/dist/jock
-
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ env.UPLOAD_URL }}
-          asset_path: ${{ env.ZIP_FILE }}
-          asset_name: ${{ env.ZIP_FILE }}
-          asset_content_type: application/zip
-
-#      - name: Run jock
-#        run: ./git-jock/dist/jock
-
-#      - name: Fail
-#        run: exit 2
+#name: Matrix Build
+#
+#on:
+#  workflow_dispatch:
+#  push:
+#    tags:
+#      - 'v*'
+#
+#jobs:
+#  create-release:
+#    name: Create Release
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
+#
+#      - name: Store Upload URL
+#        run: |
+#          echo '${{ steps.create_release.outputs.upload_url }}'
+#          echo '${{ steps.create_release.outputs.upload_url }}' > upload_url.txt
+#          cat upload_url.txt
+#
+#      - name: Upload upload_url
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: upload_url
+#          path: ./upload_url.txt
+#
+#  release-matrix:
+#    name: Release Matrix
+#    needs: create-release
+#    runs-on: ${{ matrix.os }}
+#    strategy:
+#      matrix:
+#        os: [ubuntu-latest, macos-latest]
+#
+#    steps:
+#      - name: Setup Python
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: 3.7
+#
+#      - name: Clone git-jock
+#        run: git clone https://github.com/GavinF17/git-jock.git
+#
+#      - name: Install git-jock dependencies
+#        run: |
+#          cd git-jock
+#          pip install -r requirements.txt
+#
+#      - name: Install PyInstaller
+#        run: pip install pyinstaller
+#
+#      - name: Run PyInstaller
+#        run: |
+#          cd git-jock
+#          pyinstaller jock/__main__.py --onefile --name jock
+#
+#      - name: Download upload_url
+#        uses: actions/download-artifact@v2
+#        with:
+#          name: upload_url
+#
+#      - name: Set Env Variables
+#        run: |
+#          ZIP_NAME=jock-$(uname)-$(uname -m)
+#          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
+#          echo "ZIP_FILE=$ZIP_NAME.zip" >> $GITHUB_ENV
+#          echo "UPLOAD_URL=$(cat ./upload_url.txt)" >> $GITHUB_ENV
+#
+#      - name: Debug
+#        run: |
+#          ls
+#          cat upload_url.txt
+#          echo $ZIP_NAME
+#          echo $ZIP_FILE
+#          echo $UPLOAD_URL
+#
+#      - name: Zip
+#        run: zip -j $ZIP_NAME git-jock/dist/jock
+#
+#      - name: Upload Release Asset
+#        id: upload-release-asset
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ env.UPLOAD_URL }}
+#          asset_path: ${{ env.ZIP_FILE }}
+#          asset_name: ${{ env.ZIP_FILE }}
+#          asset_content_type: application/zip
+#
+##      - name: Run jock
+##        run: ./git-jock/dist/jock
+#
+##      - name: Fail
+##        run: exit 2

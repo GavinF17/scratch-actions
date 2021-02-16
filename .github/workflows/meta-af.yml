@@ -1,15 +1,15 @@
-on: [push]
-
-jobs:
-  test_job:
-    runs-on: ubuntu-latest
-    name: A test job
-    steps:
-      - uses: actions/checkout@v2
-      - id: test
-        uses: GavinF17/scratch-actions@main
-        with:
-          server-id-1: something
-          server-id-2: something-else
-      - run: echo random-number ${{ steps.foo.outputs.random-number }}
-        shell: bash
+#on: [push]
+#
+#jobs:
+#  test_job:
+#    runs-on: ubuntu-latest
+#    name: A test job
+#    steps:
+#      - uses: actions/checkout@v2
+#      - id: test
+#        uses: GavinF17/scratch-actions@main
+#        with:
+#          server-id-1: something
+#          server-id-2: something-else
+#      - run: echo random-number ${{ steps.foo.outputs.random-number }}
+#        shell: bash

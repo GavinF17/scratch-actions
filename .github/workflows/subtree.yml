@@ -1,0 +1,12 @@
+on: [push]
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: A test job
+    steps:
+      - run: |
+        mkdir intcomm && cd intcomm
+        git init
+        git remote add intellij-community git@github.com:JetBrains/intellij-community.git
+        git fetch intellij-community
