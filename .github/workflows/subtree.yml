@@ -11,7 +11,7 @@ jobs:
           mkdir /tmp/intellij-community
           cd /tmp/intellij-community
           git clone --depth 1 --filter=blob:none --no-checkout https://github.com/JetBrains/intellij-community.git .
-          git checkout master -- plugcdvfins/java-decompiler/engine
+          git checkout master -- plugins/java-decompiler/engine
           git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
       - name: Merge Changes
         run: |
