@@ -9,5 +9,6 @@ jobs:
           mkdir intcomm
           cd intcomm
           git init
-          git remote add intellij-community https://github.com/JetBrains/intellij-community.git
-          git fetch intellij-community
+          git remote add -f intellij-community git@github.com:JetBrains/intellij-community.git
+          git checkout master -- plugins/java-decompiler/engine
+          ls
