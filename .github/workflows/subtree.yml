@@ -5,10 +5,14 @@ jobs:
     runs-on: ubuntu-latest
     name: A test job
     steps:
-      - run: |
-          mkdir intcomm
-          cd intcomm
-          git init
-          git remote add -f intellij-community https://github.com/JetBrains/intellij-community.git
-          git checkout master -- plugins/java-decompiler/engine
+      - uses: actions/checkout@v2
+      - name: Clone intellij-community
+        run: |
+          git clone https://github.com/JetBrains/intellij-community.git /tmp/intellij-community
+          cd /tmp/intellij-community
+          git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
+      - name: Clone intellij-community
+        run: |
           ls
+          git branch
+          git branch -r
