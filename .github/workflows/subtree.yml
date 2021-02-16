@@ -8,11 +8,24 @@ jobs:
       - uses: actions/checkout@v2
       - name: Clone intellij-community
         run: |
-          git clone https://github.com/JetBrains/intellij-community.git /tmp/intellij-community
+          mkdir /tmp/intellij-community
           cd /tmp/intellij-community
-          git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
-      - name: Clone intellij-community
+          git init
+          git remote add -f origin https://github.com/JetBrains/intellij-community.git
+          git checkout master -- plugins/java-decompiler/engine
+      - name: Push Subtree
         run: |
-          ls
-          git branch
-          git branch -r
+          git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
+      - name: Merge Changes
+        run: |
+          git merge -X theirs temp
+#      - name: Clone intellij-community
+#        run: |
+#          git clone https://github.com/JetBrains/intellij-community.git /tmp/intellij-community
+#          cd /tmp/intellij-community
+#          git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
+#      - name: Clone intellij-community
+#        run: |
+#          ls
+#          git branch
+#          git branch -r
