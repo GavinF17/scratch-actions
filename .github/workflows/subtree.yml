@@ -15,14 +15,6 @@ jobs:
           git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
       - name: Merge Changes
         run: |
-          git merge -X theirs temp
-#      - name: Clone intellij-community
-#        run: |
-#          git clone https://github.com/JetBrains/intellij-community.git /tmp/intellij-community
-#          cd /tmp/intellij-community
-#          git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
-#      - name: Clone intellij-community
-#        run: |
-#          ls
-#          git branch
-#          git branch -r
+          git merge -X theirs --allow-unrelated-histories temp
+          ls
+          git log
