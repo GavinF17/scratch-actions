@@ -6,15 +6,13 @@ jobs:
     name: A test job
     steps:
       - uses: actions/checkout@v2
-      - name: Clone intellij-community
+      - name: Get intellij-community
         run: |
           mkdir /tmp/intellij-community
           cd /tmp/intellij-community
           git init
           git remote add -f origin https://github.com/JetBrains/intellij-community.git
           git checkout master -- plugins/java-decompiler/engine
-      - name: Push Subtree
-        run: |
           git subtree push --prefix=plugins/java-decompiler/engine $GITHUB_WORKSPACE temp
       - name: Merge Changes
         run: |
