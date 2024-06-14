@@ -1,0 +1,50 @@
+name: Conditional Needs
+
+on:
+  workflow_dispatch:
+    inputs:
+      environments:
+        description: "A JSON array of S3 environments e.g. ['one', 'two']"
+        required: true
+        default: "['one', 'two', 'three', 'four', 'five']"
+        type: string
+
+jobs:
+  run-one:
+    runs-on: 'ubuntu-latest'
+    if: contains(fromJson(inputs.environments), 'one')
+    environment: one
+    steps:
+      - run: sleep 30 && echo done
+
+  run-two:
+    runs-on: 'ubuntu-latest'
+    needs: one
+    if: always() && contains(fromJson(inputs.environments), 'two')
+    environment: two
+    steps:
+      - run: sleep 30 && echo done
+
+  run-three:
+    runs-on: 'ubuntu-latest'
+    needs: one
+    if: always() && contains(fromJson(inputs.environments), 'three')
+    environment: three
+    steps:
+      - run: sleep 30 && echo done
+
+  run-four:
+    runs-on: 'ubuntu-latest'
+    needs: one
+    if: always() && contains(fromJson(inputs.environments), 'four')
+    environment: four
+    steps:
+      - run: sleep 30 && echo done
+
+  run-five:
+    runs-on: 'ubuntu-latest'
+    needs: one
+    if: always() && contains(fromJson(inputs.environments), 'five')
+    environment: five
+    steps:
+      - run: sleep 30 && echo done
